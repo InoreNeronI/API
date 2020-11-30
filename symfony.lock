@@ -19,6 +19,9 @@
     "composer/package-versions-deprecated": {
         "version": "1.11.99"
     },
+    "defuse/php-encryption": {
+        "version": "v2.2.1"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -110,6 +113,18 @@
     "laminas/laminas-zendframework-bridge": {
         "version": "1.1.1"
     },
+    "lcobucci/clock": {
+        "version": "2.0.0"
+    },
+    "lcobucci/jwt": {
+        "version": "4.0.0"
+    },
+    "league/event": {
+        "version": "2.2.0"
+    },
+    "league/oauth2-server": {
+        "version": "8.2.1"
+    },
     "monolog/monolog": {
         "version": "2.1.1"
     },
@@ -128,11 +143,26 @@
     "nikic/php-parser": {
         "version": "v4.10.2"
     },
+    "nyholm/psr7": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "7c0a9352a57376f04f5444e74565102c3a23d0c7"
+        },
+        "files": [
+            "config/packages/nyholm_psr7.yaml"
+        ]
+    },
     "ocramius/proxy-manager": {
         "version": "2.8.0"
     },
     "php": {
         "version": "7.4"
+    },
+    "php-http/message-factory": {
+        "version": "v1.0.2"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
@@ -151,6 +181,12 @@
     },
     "psr/event-dispatcher": {
         "version": "1.0.0"
+    },
+    "psr/http-factory": {
+        "version": "1.0.1"
+    },
+    "psr/http-message": {
+        "version": "1.0.1"
     },
     "psr/link": {
         "version": "1.0.0"
@@ -346,6 +382,9 @@
     "symfony/property-info": {
         "version": "v5.1.7"
     },
+    "symfony/psr-http-message-bridge": {
+        "version": "v2.0.2"
+    },
     "symfony/routing": {
         "version": "5.1",
         "recipe": {
@@ -457,6 +496,19 @@
     },
     "symfony/yaml": {
         "version": "v5.1.7"
+    },
+    "trikoder/oauth2-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "a7511afeb7841ed7da530b0e11a82d245f00fb0e"
+        },
+        "files": [
+            "config/packages/trikoder_oauth2.yaml",
+            "config/routes/trikoder_oauth2.yaml"
+        ]
     },
     "twig/twig": {
         "version": "v3.0.5"
