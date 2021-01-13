@@ -6,11 +6,15 @@ use App\Repository\UsersRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UsersRepository::class)
  * 
- * @ApiResource
+ * @ApiResource(
+ *	normalizationContext={"groups"={"users:read"}},
+ *	normalizationContext={"groups"={"users:write"}},
+ * )
  */
 class Users implements UserInterface
 {
@@ -23,17 +27,26 @@ class Users implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+		 * 
+		 * @Groups({"users:read", "users:write"})
+		 * 
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
+		 * 
+		 * @Groups({"user:reads", "users:write"})
+		 * 
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+		 * 
+		 * @Groups({"users:write"})
+		 * 
      */
     private $password;
 
@@ -41,7 +54,25 @@ class Users implements UserInterface
     {
         return $this->id;
     }
-
+		
+		/**
+		 * 
+		 * @Groups("users:write")
+		 */
+		private $plainPassword;
+		
+		public function getPlainPassword() : ?string
+		{
+			return $this->plainPassword;
+		}
+		
+		public function setPlainPassword(string $plainPassword) : self
+		{
+			$this->plainPassword = $plainPassword;
+			
+			return $this;
+		}
+		
     public function getEmail(): ?string
     {
         return $this->email;

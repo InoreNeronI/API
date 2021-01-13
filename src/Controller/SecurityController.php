@@ -14,6 +14,13 @@ class SecurityController extends AbstractController
     public function login(Request $request)
     {
         $user = $this->getUser();
+				
+				if (!$this->isGranted('IS_AUTHENTICATED_FULLY'))
+				{
+					return $this->json([
+						'error' => 'Usuario o contraseña incorrecta. Comprueba tus datos'		
+					], 400);
+				}
 
         return $this->json([
             'roles' => $user->getRoles(),
