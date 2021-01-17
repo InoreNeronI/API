@@ -7,13 +7,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=UsersRepository::class)
  * 
  * @ApiResource(
  *	normalizationContext={"groups"={"users:read"}},
- *	normalizationContext={"groups"={"users:write"}},
+ *	denormalizationContext={"groups"={"users:write"}},
  * )
  */
 class Users implements UserInterface
@@ -58,6 +59,8 @@ class Users implements UserInterface
 		/**
 		 * 
 		 * @Groups("users:write")
+		 * 
+		 *
 		 */
 		private $plainPassword;
 		
@@ -129,7 +132,7 @@ class Users implements UserInterface
 
     public function setPassword(string $password): self
     {
-        $this->password = $password;
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
 
         return $this;
     }
