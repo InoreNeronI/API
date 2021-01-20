@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ExerciseRepository;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=ExerciseRepository::class)
@@ -18,27 +18,27 @@ class Exercise
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private ?string $title;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $question;
+    private ?string $question;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $answer;
+    private ?string $answer;
 
     /**
      * @ORM\ManyToOne(targetEntity=Unit::class)
      */
-    private $unit_id;
+    private ?Unit $unit;
 
     public function getId(): ?int
     {
@@ -81,14 +81,14 @@ class Exercise
         return $this;
     }
 
-    public function getUnitId(): ?Unit
+    public function getUnit(): ?Unit
     {
-        return $this->unit_id;
+        return $this->unit;
     }
 
-    public function setUnitId(?Unit $unit_id): self
+    public function setUnit(?Unit $unit): self
     {
-        $this->unit_id = $unit_id;
+        $this->unit = $unit;
 
         return $this;
     }
