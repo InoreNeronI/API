@@ -3,27 +3,45 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 
 class SecurityController extends AbstractController
 {
+    private RoleHierarchyInterface $roleHierarchy;
+
+    public function __construct(RoleHierarchyInterface $roleHierarchy)
+    {
+        $this->roleHierarchy = $roleHierarchy;
+    }
+
     /**
-     * @Route("/login", name="app_login", methods={"POST"})
+     * @return JsonResponse
      */
-    public function login(Request $request)
+    private function getRoles(): JsonResponse
     {
         $user = $this->getUser();
-				
-				if (!$this->isGranted('IS_AUTHENTICATED_FULLY'))
-				{
-					return $this->json([
-						'error' => 'Usuario o contraseña incorrecta. Comprueba tus datos'		
-					], 400);
-				}
+        if (!$user) {
+            return $this->json([]);
+        }
+        $userRoles = $user->getRoles();
+        $allRoles = $this->roleHierarchy->getReachableRoleNames($userRoles);
+        return $this->json($allRoles);
+    }
 
-        return $this->json([
-            'roles' => $user->getRoles(),
-        ]);
+    /**
+     * @Route("/login", name="login", methods={"POST"})
+     * @return JsonResponse
+     */
+    public function login(): JsonResponse
+    {
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->json([
+                'error' => 'Invalid credentials.'
+            ], 400);
+        }
+
+        return $this->json(['roles' => $this->getRoles()]);
     }
 }
