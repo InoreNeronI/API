@@ -5,7 +5,7 @@ namespace App\DataPersister;
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Entity\Users;
+use App\Entity\User;
 
 /**
  * Description of UserDataPersister
@@ -31,13 +31,13 @@ class UserDataPersister implements DataPersisterInterface
 	{
 		//method
 		
-		return $data instanceof Users;
+		return $data instanceof User;
 	}
 	
 	
 	/**
 	 * 
-	 * @param Users $data
+	 * @param User $data
 	 */
 	public function persist($data)
 	{
