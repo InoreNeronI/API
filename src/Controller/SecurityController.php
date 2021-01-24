@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 
@@ -28,6 +29,15 @@ class SecurityController extends AbstractController
         $userRoles = $user->getRoles();
         $allRoles = $this->roleHierarchy->getReachableRoleNames($userRoles);
         return $this->json($allRoles);
+    }
+
+    /**
+     * @Route("/", name="info", methods={"GET"})
+     * @return Response
+     */
+    public function info(): Response
+    {
+        return new Response(phpinfo());
     }
 
     /**
