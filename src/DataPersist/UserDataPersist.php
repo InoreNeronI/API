@@ -25,7 +25,7 @@ readonly class UserDataPersist implements DataPersisterInterface
     {
         if ($data->getPlainPassword() !== null) {
             $data->setPassword(
-                $this->userPasswordEncoder->encodePassword($data, $data->getPlainPassword())
+                $this->userPasswordEncoder->hashPassword($data, $data->getPlainPassword())
             );
             $data->eraseCredentials();
         }
