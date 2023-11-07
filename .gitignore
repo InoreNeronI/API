@@ -1,5 +1,4 @@
-/.idea/
-/nbproject/private/
+/.idea
 
 ###> symfony/framework-bundle ###
 /.env.local
