@@ -7,33 +7,24 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
- * @ORM\Entity(repositoryClass=UnitRepository::class)
- * 
  * @ApiResource
  */
+#[ORM\Entity(repositoryClass: UnitRepository::class)]
 class Unit
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private ?int $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private ?string $title;
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $title = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private ?string $text;
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $text = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Subject::class)
-     */
-    private ?Subject $subject;
+    #[ORM\ManyToOne(targetEntity: Subject::class)]
+    private ?Subject $subject = null;
 
     public function getId(): ?int
     {

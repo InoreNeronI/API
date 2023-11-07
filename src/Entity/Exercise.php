@@ -7,38 +7,27 @@ use App\Repository\ExerciseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ExerciseRepository::class)
- * 
  * @ApiResource
  */
+#[ORM\Entity(repositoryClass: ExerciseRepository::class)]
 class Exercise
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private ?int $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private ?string $title;
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $title = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private ?string $question;
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $question = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private ?string $answer;
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $answer = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Unit::class)
-     */
-    private ?Unit $unit;
+    #[ORM\ManyToOne(targetEntity: Unit::class)]
+    private ?Unit $unit = null;
 
     public function getId(): ?int
     {

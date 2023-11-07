@@ -7,28 +7,21 @@ use App\Repository\SubjectRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=SubjectRepository::class)
- * 
  * @ApiResource
  */
+#[ORM\Entity(repositoryClass: SubjectRepository::class)]
 class Subject
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private ?int $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private ?string $name;
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $name = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private ?int $course;
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $course = null;
 
     public function getId(): ?int
     {

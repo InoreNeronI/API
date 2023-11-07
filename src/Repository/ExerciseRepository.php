@@ -19,10 +19,9 @@ class ExerciseRepository extends ServiceEntityRepository
         parent::__construct($registry, Exercise::class);
     }
 
-    // /**
-    //  * @return Exercise[] Returns an array of Exercise objects
-    //  */
-    /*
+    /**
+     * @return Exercise[] Returns an array of Exercise objects
+     *//*
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('e')
@@ -34,9 +33,7 @@ class ExerciseRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
 
-    /*
     public function findOneBySomeField($value): ?Exercise
     {
         return $this->createQueryBuilder('e')
@@ -45,6 +42,5 @@ class ExerciseRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
         ;
-    }
-    */
+    }*/
 }

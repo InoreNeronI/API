@@ -19,10 +19,9 @@ class UnitRepository extends ServiceEntityRepository
         parent::__construct($registry, Unit::class);
     }
 
-    // /**
-    //  * @return Unit[] Returns an array of Unit objects
-    //  */
-    /*
+    /**
+     * @return Unit[] Returns an array of Unit objects
+     *//*
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('u')
@@ -34,9 +33,7 @@ class UnitRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
 
-    /*
     public function findOneBySomeField($value): ?Unit
     {
         return $this->createQueryBuilder('u')
@@ -45,6 +42,5 @@ class UnitRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
         ;
-    }
-    */
+    }*/
 }

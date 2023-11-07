@@ -2,73 +2,54 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass=UserRepository::class)
- *
  * @ApiResource(
  *	normalizationContext={"groups"={"users:read"}},
  *	denormalizationContext={"groups"={"users:write"}},
  * )
  */
-class User implements UserInterface
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+class User implements UserInterface, \Stringable
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private int $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private readonly int $id;
 
-    /**
-     * @ORM\Column(type="string", length=180, nullable=true)
-     *
-     * @Groups({"users:read", "users:write"})
-     *
-     */
+    
+    #[ORM\Column(type: 'string', length: 180, nullable: true)]
+    #[Groups(['users:read', 'users:write'])]
     private ?string $firstName = null;
 
-    /**
-     * @ORM\Column(type="string", length=180, nullable=true)
-     *
-     * @Groups({"users:read", "users:write"})
-     *
-     */
+    
+    #[ORM\Column(type: 'string', length: 180, nullable: true)]
+    #[Groups(['users:read', 'users:write'])]
     private ?string $lastName = null;
 
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     *
-     * @Groups({"users:read", "users:write"})
-     *
-     */
+    
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Groups(['users:read', 'users:write'])]
     private string $email;
 
-    /**
-     * @ORM\Column(type="json")
-     *
-     * @Groups({"user:reads", "users:write"})
-     *
-     */
+    
+    #[ORM\Column(type: 'json')]
+    #[Groups(['user:reads', 'users:write'])]
     private array $roles = ['ROLE_USER'];
 
     /**
      * @var string The hashed password
-     * @ORM\Column(type="string")
-     *
-     * @Groups({"users:write"})
-     *
      */
+    #[ORM\Column(type: 'string')]
+    #[Groups(['users:write'])]
     private string $password;
 
-    /**
-     * @Groups("users:write")
-     */
+    #[Groups('users:write')]
     private ?string $plainPassword = null;
 
     public function getId(): int
@@ -81,7 +62,7 @@ class User implements UserInterface
         return $this->firstName;
     }
 
-    public function setFirstName($firstName)
+    public function setFirstName(string $firstName): void
     {
         $this->firstName = $firstName;
     }
@@ -91,7 +72,7 @@ class User implements UserInterface
         return $this->lastName;
     }
 
-    public function setLastName($lastName)
+    public function setLastName(string $lastName): void
     {
         $this->lastName = $lastName;
     }
@@ -168,17 +149,23 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getSalt()
+    public function getSalt(): string
     {
         // not needed when using the "bcrypt" algorithm in security.yaml
+        return '';
     }
 
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return '#'.(string)$this->getId();
     }
 }

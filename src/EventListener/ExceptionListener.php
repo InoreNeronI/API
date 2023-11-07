@@ -4,14 +4,12 @@ namespace App\EventListener;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
 class ExceptionListener
 {
-    /**
-     * @param ExceptionEvent $event
-     */
-    public function onKernelException(ExceptionEvent $event)
+    public function onKernelException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
 
@@ -19,7 +17,7 @@ class ExceptionListener
         if ($exception instanceof ForeignKeyConstraintViolationException ||
             $exception instanceof UniqueConstraintViolationException) {
             $response = new JsonResponse(['error' => $exception->getPrevious()->getMessage()]);
-            $response->setStatusCode(JsonResponse::HTTP_FORBIDDEN);
+            $response->setStatusCode(Response::HTTP_FORBIDDEN);
             $event->setResponse($response);
         }
     }

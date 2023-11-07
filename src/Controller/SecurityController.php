@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use Safe\Exceptions\InfoException;
+use function Safe\phpinfo;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,11 +12,8 @@ use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 
 class SecurityController extends AbstractController
 {
-    private RoleHierarchyInterface $roleHierarchy;
-
-    public function __construct(RoleHierarchyInterface $roleHierarchy)
+    public function __construct(private readonly RoleHierarchyInterface $roleHierarchy)
     {
-        $this->roleHierarchy = $roleHierarchy;
     }
 
     /**
@@ -23,7 +22,7 @@ class SecurityController extends AbstractController
     private function getRoles(): JsonResponse
     {
         $user = $this->getUser();
-        if (!$user) {
+        if (!$user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
             return $this->json([]);
         }
         $userRoles = $user->getRoles();
@@ -32,18 +31,19 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/", name="info", methods={"GET"})
      * @return Response
+     * @throws InfoException
      */
+    #[Route(path: '/', name: 'info', methods: ['GET'])]
     public function info(): Response
     {
         return new Response(phpinfo());
     }
 
     /**
-     * @Route("/login", name="login", methods={"POST"})
      * @return JsonResponse
      */
+    #[Route(path: '/login', name: 'login', methods: ['POST'])]
     public function login(): JsonResponse
     {
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {

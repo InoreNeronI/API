@@ -19,10 +19,9 @@ class SubjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Subject::class);
     }
 
-    // /**
-    //  * @return Subject[] Returns an array of Subject objects
-    //  */
-    /*
+    /**
+     * @return Subject[] Returns an array of Subject objects
+     *//*
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('s')
@@ -34,9 +33,7 @@ class SubjectRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
 
-    /*
     public function findOneBySomeField($value): ?Subject
     {
         return $this->createQueryBuilder('s')
@@ -45,6 +42,5 @@ class SubjectRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
         ;
-    }
-    */
+    }*/
 }
