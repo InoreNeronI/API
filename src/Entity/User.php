@@ -21,24 +21,20 @@ class User implements UserInterface, \Stringable, PasswordAuthenticatedUserInter
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private readonly int $id;
+    private ?int $id = null;
 
-    
     #[ORM\Column(type: 'string', length: 180, nullable: true)]
     #[Groups(['users:read', 'users:write'])]
     private ?string $firstName = null;
 
-    
     #[ORM\Column(type: 'string', length: 180, nullable: true)]
     #[Groups(['users:read', 'users:write'])]
     private ?string $lastName = null;
 
-    
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Groups(['users:read', 'users:write'])]
     private string $email;
 
-    
     #[ORM\Column(type: 'json')]
     #[Groups(['user:reads', 'users:write'])]
     private array $roles = ['ROLE_USER'];
@@ -53,7 +49,7 @@ class User implements UserInterface, \Stringable, PasswordAuthenticatedUserInter
     #[Groups('users:write')]
     private ?string $plainPassword = null;
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -90,9 +86,6 @@ class User implements UserInterface, \Stringable, PasswordAuthenticatedUserInter
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getRoles(): array
     {
         return array_unique($this->roles);
@@ -105,9 +98,6 @@ class User implements UserInterface, \Stringable, PasswordAuthenticatedUserInter
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getPassword(): string
     {
         return $this->password;
@@ -137,28 +127,17 @@ class User implements UserInterface, \Stringable, PasswordAuthenticatedUserInter
         return $this->email;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
     public function getUsername(): string
     {
         return $this->email;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getSalt(): string
     {
         // not needed when using the "bcrypt" algorithm in security.yaml
         return '';
     }
 
-    /**
-     * @see UserInterface
-     */
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
