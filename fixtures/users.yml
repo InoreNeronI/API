@@ -1,4 +1,10 @@
 App\Entity\User:
+  user:
+    firstname: Martin
+    lastname: Mozos
+    email: martinmozos@gmail.com
+    password: <hashPassword(admin)>
+    roles: ['ROLE_ADMIN']
   user{1..10}:
     firstname: <firstName()>
     lastname: <lastName()>
