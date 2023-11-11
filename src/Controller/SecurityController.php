@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Safe\Exceptions\InfoException;
+use Symfony\Component\Security\Core\User\UserInterface;
 use function Safe\phpinfo;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,7 +23,7 @@ class SecurityController extends AbstractController
     private function getRoles(): JsonResponse
     {
         $user = $this->getUser();
-        if (!$user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
+        if (!$user instanceof UserInterface) {
             return $this->json([]);
         }
         $userRoles = $user->getRoles();

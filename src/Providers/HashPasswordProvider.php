@@ -5,13 +5,10 @@ namespace App\Providers;
 use App\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class HashPasswordProvider
+readonly class HashPasswordProvider
 {
-    private UserPasswordHasherInterface $encoder;
-
-    public function __construct(UserPasswordHasherInterface $encoder)
+    public function __construct(private UserPasswordHasherInterface $encoder)
     {
-        $this->encoder = $encoder;
     }
 
     public function hashPassword(string $plainPassword): string
