@@ -2,13 +2,11 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\ExerciseRepository;
+use ApiPlatform\Metadata\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ExerciseRepository;
 
-/**
- * @ApiResource
- */
+#[ApiResource]
 #[ORM\Entity(repositoryClass: ExerciseRepository::class)]
 class Exercise
 {

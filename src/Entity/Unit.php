@@ -2,13 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\UnitRepository;
+use ApiPlatform\Metadata\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\UnitRepository;
 
-/**
- * @ApiResource
- */
+#[ApiResource]
 #[ORM\Entity(repositoryClass: UnitRepository::class)]
 class Unit
 {

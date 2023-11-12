@@ -2,19 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use App\Repository\UserRepository;
 
-/**
- * @ApiResource(
- *	normalizationContext={"groups"={"users:read"}},
- *	denormalizationContext={"groups"={"users:write"}},
- * )
- */
+#[ApiResource(
+    normalizationContext: ['groups' => ['users:read']],
+    denormalizationContext: ['groups' => ['users:write']]
+)]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, \Stringable, PasswordAuthenticatedUserInterface
 {

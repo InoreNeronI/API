@@ -2,13 +2,11 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\SubjectRepository;
+use ApiPlatform\Metadata\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SubjectRepository;
 
-/**
- * @ApiResource
- */
+#[ApiResource]
 #[ORM\Entity(repositoryClass: SubjectRepository::class)]
 class Subject
 {

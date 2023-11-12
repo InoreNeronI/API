@@ -34,3 +34,8 @@ services:
 
     App\Providers\HashPasswordProvider:
         tags: [ { name: nelmio_alice.faker.provider } ]
+
+    # @see https://github.com/api-platform/api-platform/issues/505#issuecomment-1305167555
+    App\State\UserPasswordHasher:
+        bind:
+            $decorated: '@api_platform.doctrine.orm.state.persist_processor'
