@@ -1,0 +1,5 @@
+App\Entity\Unit:
+  unit{1..5}:
+    title: <word()>
+    text: <words(3, true)>
+    subject: <randomElement([@subject1, @subject2, @subject3, @subject4, @subject5])>

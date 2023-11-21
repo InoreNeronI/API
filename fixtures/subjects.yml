@@ -1,0 +1,4 @@
+App\Entity\Subject:
+  subject{1..5}:
+    name: <word()>
+    course: <randomDigitNotNull()>

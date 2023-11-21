@@ -1,0 +1,6 @@
+App\Entity\Exercise:
+  exercise{1..50}:
+    title: <word()>
+    question: <words(3, true)>
+    answer: <words(5, true)>
+    unit: <randomElement([@unit1, @unit2, @unit3, @unit4, @unit5])>
