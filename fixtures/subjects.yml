@@ -1,4 +1,13 @@
 App\Entity\Subject:
-  subject{1..5}:
-    name: <word()>
+  subject1:
+    name: dev
+    course: <randomDigitNotNull()>
+  subject2:
+    name: english
+    course: <randomDigitNotNull()>
+  subject3:
+    name: math
+    course: <randomDigitNotNull()>
+  subject4:
+    name: music
     course: <randomDigitNotNull()>
