@@ -3,6 +3,13 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\State\UserPasswordHasher;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -10,6 +17,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use App\Repository\UserRepository;
 
 #[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Post(validationContext: ['groups' => ['Default', 'users:write']], processor: UserPasswordHasher::class),
+        new Get(),
+        new Put(processor: UserPasswordHasher::class),
+        new Patch(processor: UserPasswordHasher::class),
+        new Delete(),
+    ],
     normalizationContext: ['groups' => ['users:read']],
     denormalizationContext: ['groups' => ['users:write']]
 )]
