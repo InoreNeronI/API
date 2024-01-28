@@ -17,7 +17,7 @@ class TranslateController extends AbstractController
     {
         $parametersToValidate = $request->query->all();
 
-        if (empty($parametersToValidate)) {
+        if ($parametersToValidate === []) {
             throw new HttpException('400', 'Missing GET parameters');
         }
 
@@ -31,7 +31,7 @@ class TranslateController extends AbstractController
     }
 
     #[Route('/translate', name: 'app_translate')]
-    public function index(EntityManagerInterface $entityManager, Request $request): Response
+    public function translate(EntityManagerInterface $entityManager, Request $request): Response
     {
         TranslateController::httpRequestShouldHaveSpecificParametersWhenGiven($request, ['source', 'target', 'text']);
 
@@ -41,7 +41,7 @@ class TranslateController extends AbstractController
         
         $textRetrieved = $entityManager->getRepository(Text::class)->find($id);
 
-        if ($textRetrieved) {
+        if ($textRetrieved !== null) {
             return new Response($textRetrieved->getText());
         }
 
@@ -55,5 +55,47 @@ class TranslateController extends AbstractController
         $entityManager->flush();
 
         return new Response($textTranslated);
+    }
+
+    #[Route('/translate-date', name: 'app_translate_date')]
+    public function translate_date(Request $request): Response
+    {
+        TranslateController::httpRequestShouldHaveSpecificParametersWhenGiven($request, ['source', 'target', 'date']);
+
+        $formatter = new \IntlDateFormatter($request->query->get('source'), \IntlDateFormatter::SHORT, \IntlDateFormatter::NONE);
+        if (!$formatter instanceof \IntlDateFormatter) {
+            throw new HttpException(400, intl_get_error_message());
+        }
+        $timestamp = $formatter->parse($request->query->get('date'));
+        $date = new \DateTime;
+        $date->setTimestamp($timestamp);
+
+        $formatter = new \IntlDateFormatter($request->query->get('target'), \IntlDateFormatter::SHORT, \IntlDateFormatter::NONE);
+        if (!$formatter instanceof \IntlDateFormatter) {
+            throw new HttpException(400, intl_get_error_message());
+        }
+
+        return new Response($date->format(str_replace('M', 'm', str_replace('yy', 'y', $formatter->getPattern()))));
+    }
+
+    #[Route('/translate-time', name: 'app_translate_time')]
+    public function translate_time(Request $request): Response
+    {
+        TranslateController::httpRequestShouldHaveSpecificParametersWhenGiven($request, ['source', 'target', 'time']);
+
+        $formatter = new \IntlDateFormatter($request->query->get('source'), \IntlDateFormatter::NONE, \IntlDateFormatter::SHORT);
+        if (!$formatter instanceof \IntlDateFormatter) {
+            throw new HttpException(400, intl_get_error_message());
+        }
+        $timestamp = $formatter->parse($request->query->get('time'));
+        $date = new \DateTime;
+        $date->setTimestamp($timestamp);
+
+        $formatter = new \IntlDateFormatter($request->query->get('target'), \IntlDateFormatter::NONE, \IntlDateFormatter::SHORT);
+        if (!$formatter instanceof \IntlDateFormatter) {
+            throw new HttpException(400, intl_get_error_message());
+        }
+
+        return new Response($date->format(str_replace('mm', 'i', $formatter->getPattern())) . ' (' . $formatter->getPattern() . ')');
     }
 }
