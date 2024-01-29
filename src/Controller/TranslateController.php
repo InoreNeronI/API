@@ -96,6 +96,6 @@ class TranslateController extends AbstractController
             throw new HttpException(400, intl_get_error_message());
         }
 
-        return new Response($date->format(str_replace('mm', 'i', $formatter->getPattern())));
+        return new Response($date->format(str_replace('HH', 'H', str_replace('mm', 'i', $formatter->getPattern()))));
     }
 }
