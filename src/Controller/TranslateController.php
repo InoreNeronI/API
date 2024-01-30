@@ -60,7 +60,7 @@ class TranslateController extends AbstractController
     #[Route('/translate-date', name: 'app_translate_date')]
     public function translate_date(Request $request): Response
     {
-        TranslateController::httpRequestShouldHaveSpecificParametersWhenGiven($request, ['source', 'target', 'date']);
+        TranslateController::httpRequestShouldHaveSpecificParametersWhenGiven($request, ['date', 'source', 'target']);
 
         $formatter = new \IntlDateFormatter($request->query->get('source'), \IntlDateFormatter::SHORT, \IntlDateFormatter::NONE);
         if (!$formatter instanceof \IntlDateFormatter) {
@@ -75,7 +75,7 @@ class TranslateController extends AbstractController
             throw new HttpException(400, intl_get_error_message());
         }
 
-        return new Response($date->format(str_replace('M', 'm', str_replace('yy', 'y', $formatter->getPattern()))));
+        return new Response(datefmt_format($formatter, $date));
     }
 
     #[Route('/translate-time', name: 'app_translate_time')]
@@ -96,6 +96,6 @@ class TranslateController extends AbstractController
             throw new HttpException(400, intl_get_error_message());
         }
 
-        return new Response($date->format(str_replace('HH', 'H', str_replace('mm', 'i', $formatter->getPattern()))));
+        return new Response(datefmt_format($formatter, $date));
     }
 }
