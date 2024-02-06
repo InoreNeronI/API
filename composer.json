@@ -11,7 +11,7 @@
         "api-platform/core": "^3.2",
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
-        "doctrine/orm": "^2.17",
+        "doctrine/orm": "^2.18",
         "nelmio/cors-bundle": "^2.4",
         "statickidz/php-google-translate-free": "^1.2",
         "symfony/asset": "^7.0",
