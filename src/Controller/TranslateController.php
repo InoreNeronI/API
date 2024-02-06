@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Text;
 use Doctrine\ORM\EntityManagerInterface;
+use Safe\DateTime;
 use Statickidz\GoogleTranslate;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,12 +19,12 @@ class TranslateController extends AbstractController
         $parametersToValidate = $request->query->all();
 
         if ($parametersToValidate === []) {
-            throw new HttpException('400', 'Missing GET parameters');
+            throw new HttpException(400, 'Missing GET parameters');
         }
 
         foreach ($parametersThatHttpRequestShouldHave as $parameter) {
-            if (!in_array($parameter, array_keys($parametersToValidate))) {
-                throw new HttpException('400', sprintf('Missing GET parameter %s', $parameter));
+            if (!in_array($parameter, array_keys($parametersToValidate), true)) {
+                throw new HttpException(400, sprintf('Missing GET parameter %s', $parameter));
             }
         }
 
@@ -37,7 +38,7 @@ class TranslateController extends AbstractController
 
         $target = $request->query->get('target');
         $text = $request->query->get('text');
-        $id = $target . '-' . md5($text);
+        $id = $target . '-' . md5((string) $text);
         
         $textRetrieved = $entityManager->getRepository(Text::class)->find($id);
 
@@ -46,7 +47,7 @@ class TranslateController extends AbstractController
         }
 
         $trans = new GoogleTranslate();
-        $textTranslated = $trans->translate($request->query->get('source'), $target, $text);
+        $textTranslated = $trans::translate((string) $request->query->get('source'), (string) $target, (string) $text);
 
         $entity = new Text();
         $entity->setId($id);
@@ -62,18 +63,11 @@ class TranslateController extends AbstractController
     {
         TranslateController::httpRequestShouldHaveSpecificParametersWhenGiven($request, ['date', 'source', 'target']);
 
-        $formatter = new \IntlDateFormatter($request->query->get('source'), \IntlDateFormatter::SHORT, \IntlDateFormatter::NONE);
-        if (!$formatter instanceof \IntlDateFormatter) {
-            throw new HttpException(400, intl_get_error_message());
-        }
-        $timestamp = $formatter->parse($request->query->get('date'));
-        $date = new \DateTime;
-        $date->setTimestamp($timestamp);
+        $formatter = new \IntlDateFormatter((string) $request->query->get('source'), \IntlDateFormatter::SHORT, \IntlDateFormatter::NONE);
+        $date = new DateTime;
+        $date->setTimestamp($formatter->parse((string) $request->query->get('date')));
 
-        $formatter = new \IntlDateFormatter($request->query->get('target'), \IntlDateFormatter::SHORT, \IntlDateFormatter::NONE);
-        if (!$formatter instanceof \IntlDateFormatter) {
-            throw new HttpException(400, intl_get_error_message());
-        }
+        $formatter = new \IntlDateFormatter((string) $request->query->get('target'), \IntlDateFormatter::SHORT, \IntlDateFormatter::NONE);
 
         return new Response(datefmt_format($formatter, $date));
     }
@@ -83,18 +77,11 @@ class TranslateController extends AbstractController
     {
         TranslateController::httpRequestShouldHaveSpecificParametersWhenGiven($request, ['source', 'target', 'time']);
 
-        $formatter = new \IntlDateFormatter($request->query->get('source'), \IntlDateFormatter::NONE, \IntlDateFormatter::SHORT);
-        if (!$formatter instanceof \IntlDateFormatter) {
-            throw new HttpException(400, intl_get_error_message());
-        }
-        $timestamp = $formatter->parse($request->query->get('time'));
-        $date = new \DateTime;
-        $date->setTimestamp($timestamp);
+        $formatter = new \IntlDateFormatter((string) $request->query->get('source'), \IntlDateFormatter::NONE, \IntlDateFormatter::SHORT);
+        $date = new DateTime;
+        $date->setTimestamp($formatter->parse((string) $request->query->get('time')));
 
-        $formatter = new \IntlDateFormatter($request->query->get('target'), \IntlDateFormatter::NONE, \IntlDateFormatter::SHORT);
-        if (!$formatter instanceof \IntlDateFormatter) {
-            throw new HttpException(400, intl_get_error_message());
-        }
+        $formatter = new \IntlDateFormatter((string) $request->query->get('target'), \IntlDateFormatter::NONE, \IntlDateFormatter::SHORT);
 
         return new Response(datefmt_format($formatter, $date));
     }
